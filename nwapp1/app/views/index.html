@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+      <meta charset='UTF-8'>
+    <title>Create HTML5 Canvas JavaScript Drawing App Example</title>
+    <link rel='stylesheet' href='../css/reset.css'>
+    <link rel='stylesheet' href='../css/style.css'>
+      <script>
+
+        var nw = require('nw.gui');
+        var win = nw.Window.get();
+        win.isMaximized = false;
+
+    </script>
+
+  </head>
+  <body>
+
+      <header>
+        <ul>
+            <li><a href='#' title='Minimize' id='windowControlMinimize'></a></li><!--
+         --><li><a href='#' title='Maximize' id='windowControlMaximize'></a></li><!--
+         --><li><a href='#' title='Close'    id='windowControlClose'   ></a></li>
+            </ul>
+        </header>
+
+    <div id="canvasDiv"></div>
+    <!--[if IE]><script type="text/javascript" src="../js/excanvas.js"></script><![endif]-->
+    <script type="text/javascript" src="../js/html5-canvas-drawing-app.js"></script>
+    <script type="text/javascript">
+         drawingApp.init();
+         // Min
+        document.getElementById('windowControlMinimize').onclick = function()
+        {
+            win.minimize();
+        };
+
+        // Close
+        document.getElementById('windowControlClose').onclick = function()
+        {
+            win.close();
+        };
+
+        // Max
+        document.getElementById('windowControlMaximize').onclick = function()
+        {
+            if (win.isMaximized)
+                win.unmaximize();
+            else
+                win.maximize();
+        };
+
+        win.on('maximize', function(){
+            win.isMaximized = true;
+        });
+
+        win.on('unmaximize', function(){
+            win.isMaximized = false;
+        });
+
+    </script>
+  </body>
+</html>

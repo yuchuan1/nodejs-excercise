@@ -5,10 +5,10 @@
   "single-instance": true,
   "window": {
     "title": "nwapp1",
-    "width": 650,
-    "height": 650,
-    "min_width": 650,
-    "min_height": 650,
+    "width": 520,
+    "height": 280,
+    "min_width": 520,
+    "min_height": 280,
     "toolbar": false,
     "frame"  : false
   },

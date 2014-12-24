@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>nwspawn</title>
+</head>
+<body>
+
+    <h1>nwspawn</h1>
+    <p></p>
+    <script>
+        var spawn = require('child_process').spawn;
+        var ls    = spawn('C:/work/nodejs-excercise/nw-spawn/app/views/hello.exe');
+        ls.stdout.on('data', function (data) {
+          document.write('pid:' + ls.pid + '\nstdout: ' + data);
+        });
+
+        ls.stderr.on('data', function (data) {
+          document.write('stderr: ' + data);
+        });
+
+        ls.on('close', function (code) {
+          document.write('child process exited with code ' + code);
+        });
+
+        var img = spawn('C:/work/nodejs-excercise/nw-spawn/app/views/Picture.exe');
+        img.stdout.on('data', function (data) {
+          document.write('pid:' + img.pid + '\nstdout: <img src="' + data + '" >');
+        });
+
+        img.stderr.on('data', function (data) {
+          document.write('stderr: ' + data);
+        });
+
+        img.on('close', function (code) {
+          document.write('child process exited with code ' + code);
+        });
+
+    </script>
+
+
+</body>
+</html>

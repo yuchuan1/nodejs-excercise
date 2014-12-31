@@ -11,4 +11,6 @@ var binding = require(binding_path);
 //console.log(binding.hello("test from JS"));
 //require('assert').equal(binding.hello("hello from c++"),"hello from c++");
 console.log(binding.hello("hello from c++"));
-console.log(binding.hello(" Hello JavaScript"));
+console.log(binding.getResolution());
+//console.log(binding.hello(" Hello JavaScript"));
+process.exit(0);

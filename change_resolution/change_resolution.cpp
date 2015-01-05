@@ -66,7 +66,17 @@ DEVMODE            deviceMode    = {0};
         return scope.Close(v8::String::New(msg_string.c_str()));
     }
 
-    static v8::Handle<v8::Value> get_screen_resolution(const v8::Arguments& args){
+    static v8::Handle<v8::Value> set_screen_resolution(const v8::Arguments& args){
+
+        v8::String::Utf8Value  p1(args[0]->ToString());
+        v8::String::Utf8Value  p2(args[1]->ToString());
+        std::string myParam1 = std::string(*p1);
+        std::string myParam2 = std::string(*p2);
+
+        newWidth = atoi(myParam1.c_str());
+        newHeight = atoi(myParam2.c_str());
+
+
         DDList_Build(&ddList);
         device.cb = sizeof(device);
         if(DDList_Pop(&ddList, &device)) {
@@ -75,17 +85,26 @@ DEVMODE            deviceMode    = {0};
             if(EnumDisplaySettingsEx(device.DeviceName, ENUM_CURRENT_SETTINGS, &deviceMode, 0)) {
                 actualWidth = deviceMode.dmPelsWidth;
                 actualHeight = deviceMode.dmPelsHeight;
+
+                //    now change the display settings
+                if((actualWidth != newWidth) || (actualHeight != newHeight)) {
+                    deviceMode.dmPelsWidth    = newWidth;
+                    deviceMode.dmPelsHeight    = newHeight;
+                    if(ChangeDisplaySettingsEx(device.DeviceName, &deviceMode, NULL, 0, NULL) == DISP_CHANGE_SUCCESSFUL) {
+                        //    broadcast change to system
+                        SendMessage(HWND_BROADCAST, WM_DISPLAYCHANGE, (WPARAM)(deviceMode.dmBitsPerPel), MAKELPARAM(newWidth, newHeight));
+                    }
+                }
             }
         }
 
         v8::HandleScope scope;
 
-        v8::String::Utf8Value  param1(args[0]->ToString());
-        std::string mystr = std::string(*param1);
-        MyLib::Message msg(mystr);
-        std::string msg_string = " Screen resolution info - \nactualWidth:" + std::to_string(static_cast<long long>(actualWidth))
-            + "\nactualHeight:" + std::to_string(static_cast<long long>(actualHeight));
-        return scope.Close(v8::String::New(msg_string.c_str()));
+     //   v8::String::Utf8Value  param1(args[0]->ToString());
+    //    std::string mystr = std::string(*param1);
+     //   MyLib::Message msg(mystr);
+     //   std::string msg_string = "";
+        return scope.Close(v8::String::New(""));
     }
 
 #endif
@@ -181,7 +200,7 @@ extern "C" {
         v8::HandleScope scope;
 #endif
         NODE_SET_METHOD(target, "hello", get_hello);
-        NODE_SET_METHOD(target, "getResolution", get_screen_resolution);
+        NODE_SET_METHOD(target, "setResolution", set_screen_resolution);
     }
 }
 

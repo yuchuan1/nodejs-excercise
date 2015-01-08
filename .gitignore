@@ -5,3 +5,4 @@ HTML5_DRAWING_NW_APP/resources/node-webkit/**
 HTML5_DRAWING_NW_APP/resources/Windows/**
 nw-spawn/resources/node-webkit/Windows/**
 change_screen_resolution/Debug/*
+change_screen_resolution/Release/*
